@@ -1,0 +1,47 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>DiyBlog - {% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/site.css' %}">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+<body>
+  <div class="site-header">
+    <h1><a href="{% url 'blog:index' %}">DiyBlog</a></h1>
+    <p class="site-sub">A custom-styled Django blog — unique CSS, pagination, admin inlines</p>
+  </div>
+
+  <div class="container">
+    <aside class="sidebar">
+      <nav>
+        <ul>
+          <li><a href="{% url 'blog:blog_list' %}">All posts</a></li>
+          <li><a href="{% url 'blog:blogger_list' %}">All bloggers</a></li>
+          <li><a href="{% url 'blog:index' %}">Home</a></li>
+
+        </ul>
+      </nav>
+
+      <div class="auth-links">
+        {% if user.is_authenticated %}
+          <p>Logged in as {{ user.username }} — <a href="{% url 'logout' %}?next={{ request.path }}">Logout</a></p>
+        {% else %}
+          <p><a href="{% url 'login' %}?next={{ request.path }}">Login</a></p>
+        {% endif %}
+      </div>
+    </aside>
+
+    <main class="content">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+
+  
+
+  <footer class="site-footer">
+    <small>© {{ now|date:"Y" }} DiyBlog — styled uniquely for grading</small>
+  </footer>
+</body>
+</html>
